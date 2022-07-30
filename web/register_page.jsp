@@ -69,5 +69,45 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="javascript/script.js" type="text/javascript"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                console.log("loaded........")
+                $('#reg-form').on('submit', function (event) {
+                    event.preventDefault();
+                    let form = new FormData(this);
+                    $("#sumbimt-btn").hide();
+                    $("#loader").show();
+                    //send register servlet:
+                    $.ajax({
+                        url: "RegisterServlet",
+                        type: 'POST',
+                        data: form,
+                        success: function (data, textStatus, jqXHR) {
+                            console.log(data)
+                            $("#sumbimt-btn").show();
+                            $("#loader").hide();
+                            if (data.trim() === 'done')
+                            {
+                                swal("Done", "You have been Registered Successfully!", "success")
+                                    .then((value) => {
+                                        window.location = "register_page.jsp"
+                                });
+                            } else
+                            {
+                                swal(data, "Please try again", "error");
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $("#sumbimt-btn").show();
+                            $("#loader").hide();
+                            swal("oh noes!", "something went wrong..try again", "error");
+                        },
+                        processData: false,
+                        contentType: false
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
