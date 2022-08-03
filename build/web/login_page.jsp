@@ -1,3 +1,4 @@
+<%@page import="com.tech.blog.entities.Message"%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,7 +14,17 @@
         <!--navbar-->
         <%@include  file="navbar.jsp" %>
 
-
+        <%
+            Message m = (Message) session.getAttribute("msg");
+            if (m != null) {
+        %>
+        <div class="alert <%= m.getCssClass() %> mb-0 text-center" role="alert">
+            <%= m.getContent() %>
+        </div> 
+        <%        
+                session.removeAttribute("msg");
+            }
+        %>
         <main class="d-flex align-items-center primary-background banner-background" style="height: 70vh">
             <div class="container">
                 <div class="row">
@@ -23,7 +34,7 @@
                                 <span class="fa fa-user-plus fa-3x"></span>
                                 <br>
                                 <p>Login here</p>
-                            </div> 
+                            </div>
                             <div class="card-body">
                                 <form action="LoginServlet" method="post">
                                     <div class="form-group">
