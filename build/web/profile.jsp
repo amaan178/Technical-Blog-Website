@@ -155,8 +155,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary primary-background" data-dismiss="modal">Close</button>
-                        <button  id="edit-profile-button" type="button" class="btn btn-primary">EDIT</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button  id="edit-profile-button" type="button" class="btn btn-primary primary-background">EDIT</button>
                     </div>
                 </div>
             </div>
@@ -169,6 +169,26 @@
         crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script src="js/script.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function () {
+                let editStatus = false;
+                $('#edit-profile-button').click(function ()
+                {
+                    if (editStatus == false)
+                    {
+                        $("#profile-details").hide();
+                        $("#profile-edit").show();
+                        editStatus = true;
+                        $(this).text("Back");
+                    } else
+                    {
+                        $("#profile-details").show();
+                        $("#profile-edit").hide();
+                        editStatus = false;
+                        $(this).text("Edit");
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
