@@ -1,7 +1,7 @@
 package com.tech.blog.servlet;
 
 import com.tech.blog.dao.UserDao;
-import com.tech.blog.entities.Helper;
+import com.tech.blog.helper.Helper;
 import com.tech.blog.entities.Message;
 import com.tech.blog.entities.User;
 import com.tech.blog.helper.ConnectionProvider;

@@ -1,3 +1,7 @@
+<%@page import="com.tech.blog.dao.PostDao"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.tech.blog.entities.Category"%>
+<%@page import="com.tech.blog.helper.ConnectionProvider"%>
 <%@page import="com.tech.blog.entities.User"%>
 <%
     User user = (User) session.getAttribute("currentUser");
@@ -43,11 +47,11 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> <span class="	fa fa-address-card-o"></span> Contact</a>
+                        <a class="nav-link" href="#"> <span class="fa fa-address-card-o"></span> Contact</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#add-post-modal" > <span class="	fa fa-asterisk"></span> Do Post</a>
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#add-post-modal" > <span class="fa fa-asterisk"></span> Add Post</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mr-right">
@@ -162,6 +166,61 @@
             </div>
         </div>
 
+        <!--add post modal-->
+        <div class="modal fade" id="add-post-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Provide the post details..</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-post-form" action="AddPostServlet" method="post">
+                            <div class="form-group">
+                                <select class="form-control" name="cid">
+                                    <option selected disabled>---Select Category---</option>
+                                    <!--categories-->
+                                    <%               
+                                        PostDao d = new PostDao(ConnectionProvider.getConnection());
+                                        ArrayList<Category> list1 = d.getAllCategories();
+                                        for (Category cc : list1) {
+                                    %>
+                                            <option><%= cc.getName()%></option>
+                                    <%                                        
+                                        }
+                                    %>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input name="pTitle" type="text" placeholder="Enter post Title" class="form-control"/>
+                            </div>
+
+                            <div class="form-group">
+                                <textarea name="pContent" class="form-control" style="height: 200px;" placeholder="Enter your content"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="pCode" class="form-control" style="height: 200px;" placeholder="Enter your program (if any)"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Select your pic..</label>
+                                <br>
+                                <input type="file" name="pic"  >
+                            </div>
+                            <div class="container text-center">
+                                <button type="submit" class="btn btn-outline-primary">Post </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--END add post modal-->
+
+        
         <!--javascripts-->
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
