@@ -148,7 +148,7 @@
                                         </tr>
                                     </table>
                                     <div class="container">
-                                        <button type="submit" class="btn btn-outline-primary">Save</button>
+                                        <button type="submit" class="btn btn-dark primary-background">Save</button>
                                     </div>
                                 </form>    
                             </div>
@@ -156,7 +156,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button  id="edit-profile-button" type="button" class="btn btn-primary primary-background">EDIT</button>
+                        <button  id="edit-profile-button" type="button" class="btn btn-dark primary-background">EDIT</button>
                     </div>
                 </div>
             </div>
