@@ -228,6 +228,7 @@
         crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
             $(document).ready(function () {
                 let editStatus = false;
@@ -249,5 +250,42 @@
                 });
             });
         </script>
+        
+        <!--add post js-->
+        <script>
+            $(document).ready(function (e) {
+                //
+                $("#add-post-form").on("submit", function (event) {
+                    //this code gets called when form is submitted....
+                    event.preventDefault();
+                    console.log("you have clicked on submit..");
+                    let form = new FormData(this);
+                    //now requesting to server
+                    $.ajax({
+                        url: "AddPostServlet",
+                        type: 'POST',
+                        data: form,
+                        success: function (data, textStatus, jqXHR) {
+                            //success ..
+                            console.log(data);
+                            if (data.trim() === 'done')
+                            {
+                                swal("Good job!", "saved successfully", "success");
+                            } else
+                            {
+                                swal("Error!!", "Something went wrong while inserting the data...", "error");
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            //error..
+                            swal("Error!!", "Something went wrong try again...", "error");
+                        },
+                        processData: false,
+                        contentType: false
+                    });
+                });
+            });
+        </script>
+
     </body>
 </html>
