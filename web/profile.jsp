@@ -21,8 +21,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
-        <!--navbar--> 
-
+        <!--navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark primary-background">
             <a class="navbar-brand" href="index.jsp"> <span class="fa fa-asterisk"></span> Tech Blog</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,6 +65,44 @@
             </div>
         </nav>
         <!--end of navbar-->
+        
+         <!--main body of the page-->
+        <main>
+            <div class="container">
+                <div class="row mt-4">
+                    <!--first col-->
+                    <div class="col-md-4">
+                        <!--categories-->
+                        <div class="list-group">
+                            <a href="#" onclick="getPosts(0, this)"  class=" c-link list-group-item list-group-item-action active">
+                                All Posts
+                            </a>
+                            <!--categories-->
+                            <%                                
+                                PostDao pd = new PostDao(ConnectionProvider.getConnection());
+                                ArrayList<Category> list2 = pd.getAllCategories();
+                                for (Category cc : list2) {
+                            %>
+                                    <a href="#" onclick="getPosts(<%= cc.getCid()%>, this)" class=" c-link list-group-item list-group-item-action"><%= cc.getName()%></a>
+                            <%                                        
+                                }
+                            %>
+                        </div>
+                    </div>
+                    <!--second col-->
+                    <div class="col-md-8" >
+                        <!--posts-->
+                        <div class="container text-center" id="loader">
+                            <i class="fa fa-refresh fa-3x fa-spin"></i>
+                            <h4 class="mt-2">Loading...</h4>
+                        </div>
+                        <div class="container-fluid" id="post-container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--end main body of the page-->
         
         <!-- Modal -->
         <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -221,6 +258,7 @@
         <!--END add post modal-->
 
         
+        
         <!--javascripts-->
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -285,6 +323,30 @@
                     });
                 });
             });
+        </script>
+        
+        <!--loading post using ajax-->
+        <script>
+            function getPosts(catId, temp) {
+                $("#loader").show();
+                $("#post-container").hide()
+                $(".c-link").removeClass('active')
+                $.ajax({
+                    url: "load_posts.jsp",
+                    data: {cid: catId},
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        $("#loader").hide();
+                        $("#post-container").show();
+                        $('#post-container').html(data)
+                        $(temp).addClass('active')
+                    }
+                })
+            }
+            $(document).ready(function (e) {
+                let allPostRef = $('.c-link')[0]
+                getPosts(0, allPostRef)
+            })
         </script>
 
     </body>

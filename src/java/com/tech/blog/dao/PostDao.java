@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PostDao {
     Connection conn;
@@ -51,5 +53,60 @@ public class PostDao {
             e.printStackTrace();
         }
         return f;
+    }
+     public List<Post> getAllPosts() {
+
+        List<Post> list = new ArrayList<>();
+        //fetch all the post
+        try {
+
+            PreparedStatement p = this.conn.prepareStatement("select * from posts order by pid desc");
+
+            ResultSet set = p.executeQuery();
+
+            while (set.next()) {
+
+                int pid = set.getInt("pid");
+                String pTitle = set.getString("pTitle");
+                String pContent = set.getString("pContent");
+                String pCode = set.getString("pCode");
+                String pPic = set.getString("pPic");
+                Timestamp date = set.getTimestamp("pDate");
+                int catId = set.getInt("catId");
+                int userId = set.getInt("userId");
+                Post post = new Post(pid, pTitle, pContent, pCode, pPic, date, catId, userId);
+
+                list.add(post);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Post> getPostByCatId(int catId) {
+        List<Post> list = new ArrayList<>();
+        //fetch all post by id
+        //fetch all the post
+        try {
+            PreparedStatement p = this.conn.prepareStatement("select * from posts where catId=?");
+            p.setInt(1, catId);
+            ResultSet set = p.executeQuery();
+            while (set.next()) {
+                int pid = set.getInt("pid");
+                String pTitle = set.getString("pTitle");
+                String pContent = set.getString("pContent");
+                String pCode = set.getString("pCode");
+                String pPic = set.getString("pPic");
+                Timestamp date = set.getTimestamp("pDate");
+                int userId = set.getInt("userId");
+                Post post = new Post(pid, pTitle, pContent, pCode, pPic, date, catId, userId);
+                list.add(post);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
