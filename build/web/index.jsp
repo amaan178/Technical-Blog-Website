@@ -1,5 +1,9 @@
-
+<%@page import="com.tech.blog.dao.UserDao"%>
+<%@page import="com.tech.blog.entities.User"%>
+<%@page import="com.tech.blog.entities.Post"%>
+<%@page import="java.util.List"%>
 <%@page import="com.tech.blog.helper.ConnectionProvider"%>
+<%@page import="com.tech.blog.dao.PostDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.sql.*"%>
 <!DOCTYPE html>
@@ -37,68 +41,35 @@
         <!--cards-->
         <div class="container">
             <div class="row mb-2">
-                <div class="col-md-4">
-                    <div class="card" >
-                        <div class="card-body">
-                            <h5 class="card-title">Java Programming</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn primary-background text-white">Read more</a>
+                <%
+                    User uuu=(User)session.getAttribute("currentUser");  
+                    Thread.sleep(1000);
+                    PostDao d = new PostDao(ConnectionProvider.getConnection());
+                    List<Post> posts = d.getAllPosts();
+                    for (Post p : posts) {
+                %>
+                        <div class="col-md-4 mt-2 mb-3">
+                            <div class="card">
+                                <img class="card-img-top" src="images/<%= p.getpPic()%>" alt="Card image cap">
+                                <div class="card-body">
+                                    <h4 class = "card-title"><%= p.getpTitle() %></h4>
+                                    <% UserDao ud = new UserDao(ConnectionProvider.getConnection());%>
+                                    <h6 class="card-subtitle mb-2 text-muted"><%= ud.getUserByUserId(p.getUserId()).getName()%></h6>
+                                    <p class = "card-text fifty-chars"><%= p.getpContent() %></p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> 10</a>
+                                    <a href="show_blog_page.jsp?post_id=<%= p.getPid()%>" class="btn btn-primary btn-sm">Read More...</a>
+                                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span>20</span>  </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card" >
-                        <div class="card-body">
-                            <h5 class="card-title">Java Programming</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn primary-background text-white">Read more</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card" >
-                        <div class="card-body">
-                            <h5 class="card-title">Java Programming</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn primary-background text-white">Read more</a>
-                        </div>
-                    </div>
-                </div>
+                <%
+                    }
+
+                %>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card" >
-
-                        <div class="card-body">
-                            <h5 class="card-title">Java Programming</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn primary-background text-white">Read more</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card" >
-
-                        <div class="card-body">
-                            <h5 class="card-title">Java Programming</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn primary-background text-white">Read more</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card" >
-                        <div class="card-body">
-                            <h5 class="card-title">Java Programming</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn primary-background text-white">Read more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        
+        </div>        
         <!--javascript cdn-->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

@@ -25,7 +25,7 @@
                     <h4 class = "card-title"><%= p.getpTitle() %></h4>
                     <% UserDao ud = new UserDao(ConnectionProvider.getConnection());%>
                     <h6 class="card-subtitle mb-2 text-muted"><%= ud.getUserByUserId(p.getUserId()).getName()%></h6>
-                    <p class = "card-text"><%= p.getpContent() %></p>
+                    <p class = "card-text fifty-chars"><%= p.getpContent() %></p>
                 </div>
                 <div class="card-footer text-center">
                     <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> 10</a>
@@ -38,5 +38,4 @@
     }
 
 %>
-
 </div>

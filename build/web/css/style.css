@@ -1,8 +1,11 @@
-/*body{
-    background:url('images/vector-bg.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-}*/
+.fifty-chars {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 5; /* number of lines to show */
+           line-clamp: 5; 
+   -webkit-box-orient: vertical;
+}
 .primary-background {
     background:#007BFF !important;
 }
