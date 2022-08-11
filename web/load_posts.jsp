@@ -1,3 +1,4 @@
+<%@page import="com.tech.blog.dao.UserDao"%>
 <%@page import="com.tech.blog.entities.User"%>
 <%@page import="com.tech.blog.entities.Post"%>
 <%@page import="java.util.List"%>
@@ -22,12 +23,14 @@
                 <img class="card-img-top" src="images/<%= p.getpPic()%>" alt="Card image cap">
                 <div class="card-body">
                     <h4 class = "card-title"><%= p.getpTitle() %></h4>
-                    <h6 class="card-subtitle mb-2 text-muted"><%= p.getpDate() %></h6>
+                    <% UserDao ud = new UserDao(ConnectionProvider.getConnection());%>
+                    <h6 class="card-subtitle mb-2 text-muted"><%= ud.getUserByUserId(p.getUserId()).getName()%></h6>
                     <p class = "card-text"><%= p.getpContent() %></p>
                 </div>
-                <div class="card-footer primary-background text-center">
-                    <a href="show_blog_page.jsp?post_id=<%= p.getPid()%>" class="btn btn-outline-light btn-sm">Read More...</a>
-                    <a href="#!" class="btn btn-outline-light btn-sm"> <i class="fa fa-commenting-o"></i> <span>20</span>  </a>
+                <div class="card-footer text-center">
+                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> 10</a>
+                    <a href="show_blog_page.jsp?post_id=<%= p.getPid()%>" class="btn btn-primary btn-sm">Read More...</a>
+                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span>20</span>  </a>
                 </div>
             </div>
         </div>

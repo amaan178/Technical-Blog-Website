@@ -1,6 +1,24 @@
+/*body{
+    background:url('images/vector-bg.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}*/
 .primary-background {
-    background:#009688 !important;
+    background:#007BFF !important;
 }
 .banner-background {
     clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 91%, 63% 100%, 22% 91%, 0 99%, 0 0);
+}
+.post-title{
+    font-size: 30px;
+}
+.post-content{
+    font-size: 18px;
+}
+.post-date{
+    font-style: italic;
+    font-weight: bold;
+}
+.post-user-info{
+    font-size: 20px;
 }

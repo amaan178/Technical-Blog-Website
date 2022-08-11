@@ -1,6 +1,9 @@
-<%@page import="com.tech.blog.dao.PostDao"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="com.tech.blog.dao.UserDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.tech.blog.entities.Category"%>
+<%@page import="com.tech.blog.dao.PostDao"%>
+<%@page import="com.tech.blog.entities.Post"%>
 <%@page import="com.tech.blog.helper.ConnectionProvider"%>
 <%@page import="com.tech.blog.entities.User"%>
 <%
@@ -8,13 +11,16 @@
     if (user == null) {
         response.sendRedirect("login_page.jsp");
     }
+    int postId = Integer.parseInt(request.getParameter("post_id"));
+    PostDao d = new PostDao(ConnectionProvider.getConnection());
+    Post p = d.getPostByPostId(postId);
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title><%= p.getpTitle()%> || TechBlog by Amaan!</title>
         <!--css-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
@@ -26,7 +32,6 @@
                 background-attachment: fixed;
             }
         </style>
-
     </head>
     <body>
         <!--navbar-->
@@ -47,9 +52,15 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">Programming Language</a>
-                            <a class="dropdown-item" href="#">Project Implementation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Data Structure</a>
+                            <%               
+                                ArrayList<Category> list1 = d.getAllCategories();
+                                for (Category cc : list1) {
+                            %>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#"><%= cc.getName()%></a>   
+                            <%                                        
+                                }
+                            %>
                         </div>
                     </li>
 
@@ -74,45 +85,41 @@
         </nav>
         <!--end of navbar-->
         
-         <!--main body of the page-->
-        <main>
-            <div class="container">
-                <div class="row mt-4">
-                    <!--first col-->
-                    <div class="col-md-4">
-                        <!--categories-->
-                        <div class="list-group">
-                            <a href="#" onclick="getPosts(0, this)"  class=" c-link list-group-item list-group-item-action active">
-                                All Posts
-                            </a>
-                            <!--categories-->
-                            <%                                
-                                PostDao pd = new PostDao(ConnectionProvider.getConnection());
-                                ArrayList<Category> list2 = pd.getAllCategories();
-                                for (Category cc : list2) {
-                            %>
-                                    <a href="#" onclick="getPosts(<%= cc.getCid()%>, this)" class=" c-link list-group-item list-group-item-action"><%= cc.getName()%></a>
-                            <%                                        
-                                }
-                            %>
+        <!--main content of body-->
+        <div class="container">
+            <div class="row my-4">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card">
+                        <div class="card-header primary-background text-white">
+                            <h4 class="post-title"><%= p.getpTitle()%></h4>
                         </div>
-                    </div>
-                    <!--second col-->
-                    <div class="col-md-8" >
-                        <!--posts-->
-                        <div class="container text-center" id="loader">
-                            <i class="fa fa-refresh fa-3x fa-spin"></i>
-                            <h4 class="mt-2">Loading...</h4>
+                        <div class="card-body">
+                            <img class="card-img-top my-2" src="images/<%= p.getpPic()%>" alt="Card image cap">
+                            <div class="row mt-2">
+                                <div class="col-md-8">
+                                    <% UserDao ud = new UserDao(ConnectionProvider.getConnection());%>
+                                    <p class="post-user-info"> <a href="#!"> <%= ud.getUserByUserId(p.getUserId()).getName()%></a> has posted : </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="post-date"> <%=  DateFormat.getDateTimeInstance().format(p.getpDate())%>  </p>
+                                </div>
+                            </div>    
+                            <p class="post-content"><%= p.getpContent()%></p> 
+                            <div class="post-code">
+                                <pre><%= p.getpCode()%></pre>
+                            </div>
                         </div>
-                        <div class="container-fluid" id="post-container">
+                        <div class="card-footer">
+                            <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> 10</a>
+                            <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span>20</span>  </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
-        <!--end main body of the page-->
+        </div>
+        <!--end of main content  of body-->
         
-        <!-- Modal -->
+        <!-- Profile Modal -->
         <div class="modal fade" id="profile-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -205,7 +212,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button  id="edit-profile-button" type="button" class="btn btn-dark primary-background">EDIT</button>
+                        <button  id="edit-profile-button" type="button" class="btn btn-primary">EDIT</button>
                     </div>
                 </div>
             </div>
@@ -228,8 +235,6 @@
                                     <option selected disabled>---Select Category---</option>
                                     <!--categories-->
                                     <%               
-                                        PostDao d = new PostDao(ConnectionProvider.getConnection());
-                                        ArrayList<Category> list1 = d.getAllCategories();
                                         for (Category cc : list1) {
                                     %>
                                             <option><%= cc.getName()%></option>
@@ -264,10 +269,7 @@
             </div>
         </div>
         <!--END add post modal-->
-
-        
-        
-        <!--javascripts-->
+         <!--javascripts-->
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -332,30 +334,5 @@
                 });
             });
         </script>
-        
-        <!--loading post using ajax-->
-        <script>
-            function getPosts(catId, temp) {
-                $("#loader").show();
-                $("#post-container").hide()
-                $(".c-link").removeClass('active')
-                $.ajax({
-                    url: "load_posts.jsp",
-                    data: {cid: catId},
-                    success: function (data, textStatus, jqXHR) {
-                        console.log(data);
-                        $("#loader").hide();
-                        $("#post-container").show();
-                        $('#post-container').html(data)
-                        $(temp).addClass('active')
-                    }
-                })
-            }
-            $(document).ready(function (e) {
-                let allPostRef = $('.c-link')[0]
-                getPosts(0, allPostRef)
-            })
-        </script>
-
     </body>
 </html>
