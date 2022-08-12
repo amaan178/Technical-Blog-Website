@@ -115,8 +115,11 @@
                                 LikeDao ld = new LikeDao(ConnectionProvider.getConnection());
                             %>
                             <a href="#!" onclick="doLike(<%= p.getPid()%>,<%= user.getId()%>)" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> <span class="like-counter"><%= ld.countLikeOnPost(p.getPid())%></span>  </a>
-                            <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span>20</span>  </a>
+                            <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span class="disqus-comment-count" data-disqus-identifier="<%= p.getPid() %>"> </span></a>
                         </div>
+                            <div class="card-footer">
+                                <div id="disqus_thread"></div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -339,5 +342,22 @@
                 });
             });
         </script>
-    </body>
+       <script>
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+//            /*
+            var disqus_config = function () {
+                this.page.url = "http://localhost:9494/TechBlog/show_blog_page.jsp?post_id=<%= p.getPid() %>";  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = <%= p.getPid() %>; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://techblog-ksyqxcerja.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <script id="dsq-count-scr" src="//techblog-ksyqxcerja.disqus.com/count.js" async></script>
+            </body>
 </html>

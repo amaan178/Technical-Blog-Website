@@ -364,6 +364,6 @@
                 getPosts(0, allPostRef)
             })
         </script>
-
+        <script id="dsq-count-scr" src="//techblog-ksyqxcerja.disqus.com/count.js" async></script>
     </body>
 </html>

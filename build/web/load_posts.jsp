@@ -34,7 +34,7 @@
                     %>
                     <a href="#!" onclick="doLike(<%= p.getPid()%>,<%= uuu.getId()%>)" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> <span class="like-counter"><%= ld.countLikeOnPost(p.getPid())%></span>  </a>
                     <a href="show_blog_page.jsp?post_id=<%= p.getPid()%>" class="btn btn-primary btn-sm">Read More...</a>
-                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span>20</span>  </a>
+                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span class="disqus-comment-count" data-disqus-identifier="<%= p.getPid() %>"> </span></a>
                 </div>
             </div>
         </div>
@@ -43,3 +43,4 @@
 
 %>
 </div>
+<script id="dsq-count-scr" src="//techblog-ksyqxcerja.disqus.com/count.js" async></script>
