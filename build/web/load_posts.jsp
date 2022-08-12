@@ -1,3 +1,4 @@
+<%@page import="com.tech.blog.dao.LikeDao"%>
 <%@page import="com.tech.blog.dao.UserDao"%>
 <%@page import="com.tech.blog.entities.User"%>
 <%@page import="com.tech.blog.entities.Post"%>
@@ -28,7 +29,10 @@
                     <p class = "card-text fifty-chars"><%= p.getpContent() %></p>
                 </div>
                 <div class="card-footer text-center">
-                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> 10</a>
+                    <% 
+                        LikeDao ld = new LikeDao(ConnectionProvider.getConnection());
+                    %>
+                    <a href="#!" onclick="doLike(<%= p.getPid()%>,<%= uuu.getId()%>)" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> <span class="like-counter"><%= ld.countLikeOnPost(p.getPid())%></span>  </a>
                     <a href="show_blog_page.jsp?post_id=<%= p.getPid()%>" class="btn btn-primary btn-sm">Read More...</a>
                     <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span>20</span>  </a>
                 </div>

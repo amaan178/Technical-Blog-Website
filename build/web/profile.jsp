@@ -39,7 +39,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> <span class="fa fa-home"></span> Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="profile.jsp"> <span class="fa fa-home"></span> Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -47,9 +47,16 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">Programming Language</a>
-                            <a class="dropdown-item" href="#">Project Implementation</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Data Structure</a>
+                            <%               
+                                PostDao d = new PostDao(ConnectionProvider.getConnection());
+                                ArrayList<Category> list1 = d.getAllCategories();
+                                for (Category cc : list1) {
+                            %>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#"><%= cc.getName()%></a>   
+                            <%                                        
+                                }
+                            %>
                         </div>
                     </li>
 
@@ -100,7 +107,7 @@
                     <!--second col-->
                     <div class="col-md-8" >
                         <!--posts-->
-                        <div class="container text-center" id="loader">
+                        <div class="container text-center text-white" id="loader">
                             <i class="fa fa-refresh fa-3x fa-spin"></i>
                             <h4 class="mt-2">Loading...</h4>
                         </div>
@@ -228,8 +235,8 @@
                                     <option selected disabled>---Select Category---</option>
                                     <!--categories-->
                                     <%               
-                                        PostDao d = new PostDao(ConnectionProvider.getConnection());
-                                        ArrayList<Category> list1 = d.getAllCategories();
+                                        d = new PostDao(ConnectionProvider.getConnection());
+                                        list1 = d.getAllCategories();
                                         for (Category cc : list1) {
                                     %>
                                             <option><%= cc.getName()%></option>
@@ -275,6 +282,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="javascript/script.js"> </script>
         <script>
             $(document).ready(function () {
                 let editStatus = false;

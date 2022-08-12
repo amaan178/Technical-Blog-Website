@@ -1,3 +1,4 @@
+<%@page import="com.tech.blog.dao.LikeDao"%>
 <%@page import="com.tech.blog.dao.UserDao"%>
 <%@page import="com.tech.blog.entities.User"%>
 <%@page import="com.tech.blog.entities.Post"%>
@@ -33,7 +34,7 @@
                     <p>
                         Most programming languages consist of instructions for computers. There are programmable machines that use a set of specific instructions, rather than general programming languages. 
                     </p>
-                    <button class="btn btn-outline-light btn-lg"> <span class="fa fa-user-plus"></span> Start! its Free</button>
+                    <button class="btn btn-outline-light btn-lg" dir="register_page.jsp"> <span class="fa fa-user-plus"></span> Start! its Free</button>
                     <a href="login_page.jsp" class="btn btn-outline-light btn-lg"><span class="fa fa-user-circle fa-spin"></span>  Login</a>
                 </div>
             </div>        
@@ -58,7 +59,10 @@
                                     <p class = "card-text fifty-chars"><%= p.getpContent() %></p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> 10</a>
+                                   <% 
+                                        LikeDao ld = new LikeDao(ConnectionProvider.getConnection());
+                                    %>
+                                    <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-thumbs-o-up"></i> <span class="like-counter"><%= ld.countLikeOnPost(p.getPid())%></span>  </a>
                                     <a href="show_blog_page.jsp?post_id=<%= p.getPid()%>" class="btn btn-primary btn-sm">Read More...</a>
                                     <a href="#!" class="btn btn-outline-primary btn-sm"> <i class="fa fa-commenting-o"></i> <span>20</span>  </a>
                                 </div>
